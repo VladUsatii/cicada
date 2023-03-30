@@ -8,6 +8,8 @@ import hashlib
 
 from utils import public
 
+
+# TODO: Finish this handler
 """
 Reads version of protocol and establishes connection if protocols are matching
 """
