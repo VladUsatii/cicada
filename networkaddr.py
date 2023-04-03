@@ -19,3 +19,14 @@ def gen_network_addr(timestamp: int, services: int, ipv6: str, port: int, is_ver
 	networkaddr += struct.pack("12s", ipv6.encode('utf-8'))
 	networkaddr += struct.pack("h", port)
 	return networkaddr
+
+def unpack_netaddr(address: bytes, is_version: bool) -> dict:
+	fields = {}
+	n = 0
+	if is_version == True: n = 4
+
+	fields["timestamp"] = struct.unpack("q", address[:8 - n])[0]
+	fields["services"] = struct.unpack("<Q", address[8 - n:16 - n])[0]
+	fields["ipv6"] = struct.unpack("12s", address[16 - n:-4][0]
+	fields["port"] = struct.unpack("h", address[-4:])[0]
+	return fields

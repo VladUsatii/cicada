@@ -26,3 +26,14 @@ message += struct.pack("<L", payload_length)  # payload length in little endian
 message += struct.pack("Q", nonce)
 checksum = hashlib.sha256(hashlib.sha256(message).digest()).digest()[:4]
 message += struct.pack("<L", int.from_bytes(checksum, byteorder="little"))  # checksum in little endian
+
+s = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
+peer_ip = "2001:db8::1"
+peer_port = 1513
+s.connect((peer_ip, peer_port))
+s.sendall(message)
+
+resp = s.recv(20)
+response_magic, response_command, response_length, response_checksum = struct.unpack("<L12sL4s", response_header)
+print(resp)
+s.close()
