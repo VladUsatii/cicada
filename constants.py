@@ -1,7 +1,11 @@
 """ List of all services """
 
-# magic for mainnet
+# magic
 MAINNET = 0xAB44AB55
+TESTNET = 0xBCABCB04
+
+# version
+version = hex(51652)[2:][::-1]
 
 # can serve txs
 NODE_NETWORK = 1
