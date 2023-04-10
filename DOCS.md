@@ -26,15 +26,14 @@ The version message is the first packet sent by a client that wants to sync with
 
 ### verack
 
-The verack message is the first packet sent by a node that agrees to connect with a client.
+The verack message is the first packet sent by a node that agrees to connect with a client. It doesn't follow the message_struct. It is in and of itself a unique message structure called verack.
 
 | Field Size  | Description | Data Type | Comments |
 | :---        |    :----:   |   :----:  | ---: |
-| None        | None        | None      | None |
-
-The message structure should update its command:
-
-| 12 bytes     | Verack     |  char[12]  | Protocol acknowledgement |
+| 4 bytes     | Magic       | uint32_t  | Message origin network value |
+| 12 bytes    | Command     | char[12]  | ASCII string identifying packet content, NULL padded; it should state verack |
+| 4 bytes     | Payload     | uchar[4]  | Unsigned payload field |
+| 4 bytes     | Checksum    | uint32_t  | dhash(Magic || Command || Payload)[:4] |
 
 ## General Packing Functions
 

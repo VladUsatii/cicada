@@ -25,7 +25,7 @@ def pack_message(magic: int, command: bytes, payload: bytes) -> bytes:
 	message += payload
 	return message
 
-def unpack_message(message: bytes) -> dict:
+def unpack_message(message: bytes, my_nonce: int) -> dict:
 	payload = message[24:]
 
 	raw = {}
@@ -42,7 +42,10 @@ def unpack_message(message: bytes) -> dict:
 
 	if raw['command'] == b"version\x00\x00\x00\x00\x00":
 		message = unpack_version(payload)
-		print(message)
+		print("received message: ", message)
+		if version_check(message, my_nonce):
+			verack = pack_verack()
+			return (verack, True)
 	elif raw['command'] == b"verack\x00\x00\x00\x00\x00\x00":
 		pass
 	elif raw['command'] == b"getblocks\x00\x00\x00":
@@ -58,4 +61,5 @@ def unpack_message(message: bytes) -> dict:
 	elif raw['command'] == b"tx\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00":
 		pass
 	else:
-		return raw
+		print("No command found.")
+		pass
