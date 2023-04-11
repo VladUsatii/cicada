@@ -2,6 +2,14 @@
 
 The header of each message is the command name, followed by padding of bytes in little-endian format. All data is in little-endian format, unless specified otherwise.
 
+#### How is data encoded and decoded?
+
+- All pack functions return packed bytestrings.
+
+- All pack functions must be further packed into the message pack function. All unpack functions must be first unpacked by message, then by command.
+
+- All unpack functions return dictionaries of accessible keys. These keys produce values. You can iterate through a value's list if the decoding scheme produces a list. In most cases, it produces a dictionary as well.
+
 ### message_struct
 
 | Field Size  | Description | Data Type     | Comments |

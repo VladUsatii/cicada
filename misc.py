@@ -12,6 +12,13 @@ def pack_ping(nonce: int) -> bytes:
 def unpack_ping(payload: bytes) -> dict:
 	return {"nonce": struct.unpack("Q", payload)}
 
+def pack_pong(nonce: int) -> bytes:
+	return struct.pack("Q", nonce)
+
+def unpack_pong(payload: bytes) -> dict:
+	return {"nonce": struct.unpack("Q", payload)}
+
+
 # getaddr
 # request a list of known nodes' IPv4-mapped IPv6 addresses
 
@@ -25,11 +32,16 @@ def unpack_getaddr(payload: bytes) -> dict:
 # sends a list of known nodes' addresses
 
 def pack_addr(count: int) -> bytes:
-	pass
+	max_count = len(constants.KNOWN_NODES)
+	if count <= max_count:
+		addresses = constants.KNOWN_NODES[:count]
+	else:
+		addresses = constants.KNOWN_NODES
+	#TODO: complete the struct.pack()
+	return None
 
 def unpack_addr(payload: bytes) -> dict:
-	addresses = []
-	# TODO: Finish getting a random list of known nodes
+	addresses = [] # TODO: struct.unpack()...
 	return {"addrs": [x for x in addresses]}
 
 

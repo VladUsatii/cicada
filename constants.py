@@ -27,4 +27,4 @@ version = hex(51652)[2:][::-1]
 # node's current services
 services = NODE_NETWORK | NODE_BLOOM
 
-
+KNOWN_NODES = []
