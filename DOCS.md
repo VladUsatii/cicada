@@ -33,7 +33,7 @@ The verack message is the first packet sent by a node that agrees to connect wit
 | 4 bytes     | Magic       | uint32_t  | Message origin network value |
 | 12 bytes    | Command     | char[12]  | ASCII string identifying packet content, NULL padded; it should state verack |
 | 4 bytes     | Payload     | uchar[4]  | Unsigned payload field |
-| 4 bytes     | Checksum    | uint32_t  | dhash(Magic || Command || Payload)[:4] |
+| 4 bytes     | Checksum    | uint32_t  | dhash(Magic + Command + Payload)[:4] |
 
 ## General Packing Functions
 
@@ -45,7 +45,7 @@ The address recv packing function is 34 bytes, with the IPv6 function arranged i
 | :---        |    :----:   |   :----:      | ---: |
 | 8 bytes     | Timestamp   | int64_t       | Protocol version used by node |
 | 8 bytes     | Services    | uint64_t      | bitfield of enabled connection features |
-| 16 bytes    | IPv6        | char[]        | IPv4-mapped IPv6 address of the emitting node |
+| 16 bytes    | IPv6        | char[16]        | IPv4-mapped IPv6 address of the emitting node |
 | 2 bytes     | Port        | uint16_t      | Port of the outgoing connection |
 
 
