@@ -16,13 +16,16 @@ def encode_vli(x: int) -> bytes:
 	result[-1] &= 0x7f
 	return bytes(result)
 
-def decode_vli(data: bytes) -> int:
+def decode_vli(data: bytes, return_length: bool = False) -> int:
 	result = 0
 	shift = 0
+	length = 0
 	for byte in data:
 		result |= (byte & 0x7f) << shift
 		shift += 7
+		length += 1
 		if not byte & 0x80: break
+	if return_length: return result, length
 	return result
 
 # block headers response (in response to getheaders)

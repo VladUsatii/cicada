@@ -2,6 +2,7 @@ import sys, os, socket, time, struct, dbm, json, threading, hashlib
 from utils import public
 from constants import *
 from version import *
+from verack import *
 
 # _t means "type" in C format
 # < means little-endian

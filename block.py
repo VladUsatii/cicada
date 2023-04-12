@@ -29,5 +29,7 @@ def unpack_block(message: bytes) -> dict:
 	raw['timestamp'] = struct.unpack("<q", message[68:72])[0]
 	raw['bits'] = struct.unpack("<q", message[72:76])[0]
 	raw['nonce'] = struct.unpack("<q", message[76:80])[0]
-	# TODO: txn_count and tx
-	return None
+	raw['txn_count'], n = decode_vli(message[80:], True)
+	raw['tx'] = message[80+n:]
+	return raw
+
