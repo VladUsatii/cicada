@@ -35,6 +35,6 @@ def version_check(message: dict, my_nonce: int) -> bool:
 	n_b_s, n_a_s = int(message['services']), int(constants.services)
 	assert n_b_s & n_a_s & constants.NODE_NETWORK, "both nodes must support full block requests."
 	# TODO: add dynamic permissions
-	assert int(message['timestamp']) < int(time.time()), "Timestamps are forged."
+	assert int(message['timestamp']) <= int(time.time()), "Timestamps are forged."
 	assert int(my_nonce) != int(message['nonce']), "Nonces match. Nodes can't connect to themselves."
 	return True

@@ -16,12 +16,10 @@ def pack_verack() -> bytes:
 	return message
 
 # sends to the IPv4-mapped IPv6 address of the emitting node
-def send_verack(verack, addr_from: tuple):
+def send_verack(verack, addr_from: tuple, s=None):
 	ipv4_address = addr_from[0]
-	#ipv6_address = socket.inet_ntop(socket.AF_INET6, socket.inet_pton(socket.AF_INET6, f"::ffff:{ipv4_address}"))
 	print("Sending verack to: ", ipv4_address)
-	s = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
+	if s is None:
+		s = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
 	s.connect((ipv4_address, addr_from[1]))
 	s.sendall(verack)
-	s.close()
-

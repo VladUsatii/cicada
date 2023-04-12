@@ -20,7 +20,7 @@ def main(HOST: str, PORT: int, my_nonce: int):
 					vers = unpack_message(data, my_nonce) # returns (verack, True) if successful
 					if vers[1] is True:
 						did_verack = vers[1]
-						send_verack(vers[0], addr)
+						send_verack(vers[0], addr, s)
 				except Exception as e:
 					print("Error: ", e)
 				data = conn.recv(1024)
