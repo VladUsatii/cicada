@@ -22,7 +22,6 @@ def main(HOST: str, PORT: int, my_nonce: int):
 						did_verack = vers[1]
 						send_verack(vers[0], addr)
 				except Exception as e:
-					print("Version message rejected.")
 					print("Error: ", e)
 				data = conn.recv(1024)
 			print("Connection closed")

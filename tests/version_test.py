@@ -6,6 +6,7 @@ import constants as co
 from constants import *
 from version import *
 from message_struct import *
+from networkaddr import get_local_ipv4
 
 # testing the packing and unpacking of version message
 
@@ -18,4 +19,9 @@ ipv4_address = "192.168.0.11" # address of the fullnode (NOTE: This address is a
 s = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
 s.connect((ipv4_address, 1513)) # connect to destination node's address and port
 s.sendall(msg) # send data to the node
+resp = s.recv(1024)
+print(resp)
 s.close()
+
+#s.bind((get_local_ipv4(), 1513)) # may work later
+

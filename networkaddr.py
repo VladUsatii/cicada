@@ -1,5 +1,14 @@
 import struct, socket, ipaddress, requests
 
+def get_local_ipv4() -> str:
+	with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
+		s.connect(('8.8.8.8', 80))
+		private_ip = s.getsockname()[0]
+	if private_ip.startswith('192.168.'):
+		return private_ip
+	else:
+		raise ValueError("Not a private IP address")
+
 # gets ipv4-mapped ipv6 or generates mapped from existing ipv4
 def get_ipv6_address(ipv4_address: str = None) -> bytes:
 	if ipv4_address is None:
