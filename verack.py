@@ -20,6 +20,6 @@ def send_verack(verack, addr_from: tuple, s=None):
 	ipv4_address = addr_from[0]
 	print("Sending verack to: ", ipv4_address)
 	if s is None:
-		s = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
+		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	s.connect((ipv4_address, addr_from[1]))
 	s.sendall(verack)

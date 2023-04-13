@@ -16,7 +16,7 @@ msg = pack_message(0xafafafaf, b"version\x00\x00\x00\x00\x00", vers)
 
 ipv4_address = "192.168.0.11" # address of the fullnode (NOTE: This address is a test)
 
-s = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((ipv4_address, 1513)) # connect to destination node's address and port
 s.sendall(msg) # send data to the node
 resp = s.recv(1024)
