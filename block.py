@@ -33,3 +33,4 @@ def unpack_block(message: bytes) -> dict:
 	raw['tx'] = message[80+n:]
 	return raw
 
+
