@@ -5,7 +5,7 @@ from verack import pack_verack, send_verack
 from networkaddr import unpack_netaddr
 from message_struct import *
 
-def handle_connection(conn, addr, my_nonce):
+def handle_connection(conn, addr, my_nonce, s):
 	print(f"Connection from {addr}")
 	data = conn.recv(1024) # increase to 4096 or 8192 in future
 	did_verack = False # marks whether or not the users have exchanged versions
@@ -36,7 +36,7 @@ def main(HOST: str, PORT: int, my_nonce: int, max_connections: int):
 			print(f"Maximum number of connections reached ({max_connections}), rejecting connection from {addr}.")
 			conn.close()
 		else:
-			t = threading.Thread(target=handle_connection, args=(conn, addr, my_nonce))
+			t = threading.Thread(target=handle_connection, args=(conn, addr, my_nonce, s))
 			t.start()
 			threads.append(t)
 

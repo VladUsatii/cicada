@@ -23,5 +23,4 @@ resp = s.recv(1024)
 print(resp)
 s.close()
 
-#s.bind((get_local_ipv4(), 1513)) # may work later
 
