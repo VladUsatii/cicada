@@ -13,9 +13,10 @@ Function checks method of incoming JSON:
 
 """
 class HeadersService:
-	def __init__(self, host='', port=8086):
+	def __init__(self, host='', port=8086, rpc_username='username', rpc_password='password'):
 		self.db = dbm.ndbm.open('headers', 'c')
 		self.host, self.port = host, port
+		self.rpc_username, self.rpc_password = rpc_username, rpc_password
 
 	def set(self, key, value):
 		self.db[key.encode()] = json.dumps(value).encode()
@@ -49,6 +50,10 @@ class HeadersService:
 							pass
 
 	def handle_request(self, request):
+		if 'rpcusername' not in request or 'rpcpassword' not in request:
+			raise LoginError('Missing login credentials')
+		if request['rpcusername'] != self.rpc_username or request['rpcpassword'] != self.rpc_password:
+			raise LoginError('Invalid login credentials')
 		try:
 			method = getattr(self, request['method'])
 			result = method(*request['params'])
@@ -67,6 +72,12 @@ class HeadersService:
 				'id': request.get('id')
 			}
 
+class LoginCredentialsError(Exception):
+	pass
+
 if __name__ == '__main__':
-	cache = HeadersService()
-	cache.serve_forever()
+	try:
+		cache = HeadersService()
+		cache.serve_forever()
+	except KeyboardInterrupt as e:
+		print("\nInterrupted. Stopping server.")
