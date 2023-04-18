@@ -45,15 +45,3 @@ def unpack_netaddr(address: bytes, is_version: bool) -> dict:
 	fields["ipv6"] = struct.unpack("16s", address[16 - n:-2])[0]
 	fields["port"] = struct.unpack("h", address[-2:])[0]
 	return fields
-
-# takes final payload ( message type packed in message struct )
-# and sends to node
-def send_msg(final_pack: bytes, sock=None) -> bool:
-	if sock is None: sock = socket.socket(socket.AF_INET6, socket.SOCK_DGRAM)
-
-	command = struct.unpack("12s", final_pack[4:16])[0]
-	payload = final_pack[24:]
-	if command == b"version\x00\x00\x00\x00\x00":
-		addr = unpack_netaddr(payload[20:-8], True)
-		sock.sendto(final_pack, (addr['ipv6'], int(addr['port'])))
-		sock.close()
